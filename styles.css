@@ -71,7 +71,7 @@ body {
 }
 
 .search-input:focus {
-    border-color: #4CAF50; /* Cor ao focar no input */
+    border-color: #5a5a5a; /* Cor ao focar no input */
 }
 
 .search-button {
