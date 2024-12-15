@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navbar Responsiva</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <!-- Logo -->
+        <div class="logo">
+            <a href="#">Logo</a>
+        </div>
+
+        <!-- Menu Hamburguer com ícone do FontAwesome -->
+        <div class="burger-menu" id="burger-menu">
+            <i class="fa fa-bars"></i> <!-- Ícone de hambúrguer do FontAwesome -->
+        </div>
+
+        <!-- Formulário de Pesquisa -->
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Buscar...">
+            <button class="search-button">
+                <i class="fa fa-search"></i> <!-- Ícone de lupa -->
+            </button>
+        </div>
+
+        <!-- Menu de navegação -->
+        <ul class="menu">
+            <li><a href="#"><i class="fa fa-home"></i> Home</a></li> <!-- Ícone de casa -->
+            <li><a href="#"><i class="fa fa-info-circle"></i> Sobre</a></li> <!-- Ícone de sobre -->
+            <li><a href="#"><i class="fa fa-cogs"></i> Serviços</a></li> <!-- Ícone de engrenagem -->
+            <li><a href="#"><i class="fa fa-envelope"></i> Contato</a></li> <!-- Ícone de envelope -->
+        </ul>
+    </nav>
+
+    <!-- Adicionando o script -->
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,257 @@
+/* Resetando estilos padrões */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilos gerais da navbar */
+body {
+    font-family: Arial, sans-serif;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #333; /* Cor da navbar */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    position: relative;
+}
+
+.navbar .logo a {
+    color: white;
+    font-size: 24px;
+    text-decoration: none;
+}
+
+/* Estilos do menu */
+.navbar .menu {
+    list-style: none;
+    display: flex;
+    margin-left: auto; /* Alinha os itens do menu à direita */
+}
+
+.navbar .menu li {
+    margin-left: 20px;
+}
+
+.navbar .menu li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.navbar .menu li a:hover {
+    color: #f1f1f1;
+}
+
+/* Estilos para o formulário de pesquisa */
+.search-container {
+    display: flex; /* Alinha o input e o botão horizontalmente */
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    overflow: hidden; /* Garante que o conteúdo fique dentro do contorno arredondado */
+    transition: width 0.3s ease-in-out;
+    flex-grow: 1; /* Faz o campo de pesquisa crescer e ocupar o máximo de espaço disponível */
+    max-width: 400px; /* Limita a largura máxima do campo de pesquisa */
+}
+
+.search-input {
+    padding: 6px 10px; /* Tamanho reduzido */
+    font-size: 14px; /* Fonte menor */
+    border: 2px solid #ccc;
+    border-radius: 20px 0 0 20px; /* Apenas o lado esquerdo arredondado */
+    outline: none;
+    width: 100%;
+    transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+    border-color: #4CAF50; /* Cor ao focar no input */
+}
+
+.search-button {
+    background-color: #555; /* Cor de fundo cinza mais claro que a navbar */
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-size: 16px; /* Tamanho de fonte reduzido */
+    padding: 6px 12px; /* Tamanho reduzido */
+    border-radius: 0 20px 20px 0; /* Apenas o lado direito arredondado */
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Garante que o ícone fique centralizado no botão */
+    height: 32px; /* Altura reduzida para ajustar ao layout */
+}
+
+.search-button i {
+    font-size: 16px; /* Ajuste o tamanho do ícone */
+    margin: 0; /* Remove a margem extra do ícone */
+    padding: 0; /* Remove o padding excessivo */
+    line-height: 0; /* Garante que o ícone ocupe o mínimo de espaço possível */
+    display: inline-block; /* Garante que o ícone seja tratado como um elemento em linha */
+}
+
+/* Estilos para os ícones */
+.navbar .fa {
+    color: white; /* Definindo a cor dos ícones como branco */
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: row; /* Deixa o layout em linha */
+        justify-content: flex-start; /* Logo e hambúrguer alinhados à esquerda */
+    }
+
+    /* Exibe o formulário de pesquisa com tamanho ajustado em telas menores */
+    .search-container {
+        display: flex; /* Exibe o campo de pesquisa */
+        width: 200px; /* Largura reduzida para não ocupar tanto espaço */
+        margin-left: 10px; /* Espaço entre o formulário e o ícone do hambúrguer */
+        margin-right: 10px; /* Adiciona um espaçamento à direita para separar do ícone do hambúrguer */
+    }
+
+    .search-input {
+        font-size: 12px; /* Fonte menor em dispositivos móveis */
+        padding: 7px 8px; /* Tamanho de padding ajustado */
+    }
+
+    .search-button {
+        padding: 5px 10px; /* Tamanho ajustado do botão */
+    }
+
+    .burger-menu {
+        display: flex;
+        margin-left: auto; /* Alinha o ícone de hambúrguer à direita */
+        cursor: pointer;
+    }
+
+    .fa-bars {
+        font-size: 30px;
+        color: white;
+    }
+
+    .navbar .menu {
+        position: fixed; /* Fixa o menu na tela */
+        top: 0;
+        left: -250px; /* Menu começa fora da tela */
+        background-color: #333;
+        width: 250px;
+        height: 100vh;
+        flex-direction: column;
+        align-items: center;
+        display: flex;
+        transition: left 0.3s ease-in-out; /* Animação suave */
+        padding-top: 50px; /* Adiciona um espaçamento no topo */
+    }
+
+    .navbar .menu.active {
+        left: 0; /* Menu desliza para dentro */
+    }
+
+    .navbar .menu li {
+        margin: 20px 0;
+    }
+
+    .navbar .menu li a {
+        font-size: 22px; /* Aumenta o tamanho da fonte no mobile */
+    }
+}
+
+@media (max-width: 500px) {
+    /* Ajusta o formulário de pesquisa para telas muito pequenas */
+    .navbar {
+        flex-direction: column; /* Coloca os elementos em coluna apenas na versão de 500px */
+        align-items: center; /* Centraliza todos os itens dentro da navbar */
+    }
+
+    .logo a {
+        margin-bottom: 10px; /* Espaço abaixo da logo */
+    }
+
+    /* Ajustes no formulário de pesquisa */
+    .search-container {
+        width: 90%; /* Largura do campo de pesquisa ajustada para telas pequenas */
+        margin-left: 5px; /* Menos espaço entre o campo de pesquisa e o ícone de menu */
+        margin-right: 5px; /* Menos espaço à direita */
+        margin-top: 10px;
+        margin-bottom: 10px; /* Espaço abaixo do campo de pesquisa */
+    }
+
+    .search-input {
+        font-size: 12px; /* Fonte ainda menor em dispositivos móveis muito pequenos */
+        padding: 12px 8px; /* Ajusta o padding */
+    }
+
+    .search-button {
+        padding: 20px 10px; /* Ajuste no tamanho do botão */
+    }
+
+    /* Coloca o botão de hambúrguer na extrema direita */
+    .burger-menu {
+        display: flex;
+        position: absolute; /* Fixa o ícone na extrema direita */
+        right: 20px;
+        top: 10px;
+        cursor: pointer;
+    }
+
+    .fa-bars {
+        font-size: 30px;
+        color: white;
+    }
+
+    /* Menu inicialmente oculto e com transição suave */
+    .navbar .menu {
+        position: fixed; /* Fixa o menu na tela */
+        top: 0;
+        left: 0; /* Coloca o menu no lado esquerdo da tela */
+        transform: translateX(-100%); /* Menu começa fora da tela */
+        background-color: #333;
+        width: 250px; /* Largura do menu */
+        height: 100vh; /* Altura total da tela */
+        flex-direction: column;
+        align-items: center;
+        display: flex;
+        transition: transform 0.3s ease-in-out; /* Transição suave ao deslizar */
+        padding-top: 50px;
+    }
+
+    /* Quando a classe 'active' for adicionada, o menu desliza para dentro */
+    .navbar .menu.active {
+        transform: translateX(0); /* O menu aparece deslizando para dentro */
+    }
+
+    .navbar .menu li {
+        margin: 20px 0; /* Espaçamento entre os itens */
+    }
+
+    .navbar .menu li a {
+        font-size: 22px; /* Aumenta o tamanho da fonte no mobile */
+    }
+}
+
+@media (min-width: 769px) {
+    .search-container {
+        display: flex; /* Exibe o formulário de pesquisa em telas grandes */
+        width: auto; /* Faz o campo de pesquisa se ajustar ao espaço disponível */
+        max-width: 500px; /* Máxima largura para a pesquisa */
+        margin-right: 20px; /* Garantir que o campo de pesquisa não bata no menu */
+    }
+
+    .search-input {
+        padding: 6px 10px; /* Tamanho reduzido */
+    }
+
+    .navbar .menu {
+        margin-left: auto; /* Alinha o menu à direita */
+    }
+
+    .burger-menu {
+        display: none; /* Esconde o ícone de hambúrguer em telas grandes */
+    }
+}
