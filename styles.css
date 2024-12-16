@@ -85,12 +85,13 @@ body {
     cursor: pointer;
     color: white;
     font-size: 16px; /* Tamanho de fonte reduzido */
-    padding: 6px 12px; /* Tamanho reduzido */
+    padding: 16px 12px; /* Tamanho reduzido */
     border-radius: 0 20px 20px 0; /* Apenas o lado direito arredondado */
     display: flex;
     justify-content: center;
     align-items: center; /* Garante que o ícone fique centralizado no botão */
     height: 32px; /* Altura reduzida para ajustar ao layout */
+    
 }
 
 .search-button i {
@@ -202,8 +203,8 @@ body {
     }
 
     .search-input {
-        font-size: 12px; /* Fonte ainda menor em dispositivos móveis muito pequenos */
-        padding: 12px 8px; /* Ajusta o padding */
+        font-size: 15px; /* Fonte ainda menor em dispositivos móveis muito pequenos */
+        padding: 12px 18px; /* Ajusta o padding */
     }
 
     .search-button {
@@ -263,7 +264,8 @@ body {
     }
 
     .search-input {
-        padding: 6px 10px; /* Tamanho reduzido */
+        width:300px;
+        padding: 6px 13px; /* Tamanho reduzido */
     }
 
     .navbar .menu {
