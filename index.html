@@ -1,54 +1,585 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Developer Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <style>
+        /* Animation styles */
+        .animate-item {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .animate-item.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Staggered delay for grid items */
+        .grid-item:nth-child(1) { transition-delay: 0.1s; }
+        .grid-item:nth-child(2) { transition-delay: 0.2s; }
+        .grid-item:nth-child(3) { transition-delay: 0.3s; }
+        .grid-item:nth-child(4) { transition-delay: 0.4s; }
+        .grid-item:nth-child(5) { transition-delay: 0.5s; }
+        
+        /* Full black theme custom colors */
+        body {
+            background-color: #000000;
+            color: #E5E5E5;
+            /* Add padding top to body to account for fixed header */
+            padding-top: 60px;
+        }
+        
+        .black-card {
+            background-color: #000000;
+            border: 1px solid #333333;
+        }
+        
+        .black-accent {
+            color: #6D28D9;
+        }
+        
+        .black-header {
+            background-color: #000000;
+            /* Fixed header styling */
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .black-footer {
+            background-color: #000000;
+        }
+        
+        .black-input {
+            background-color: #0D0D0D;
+            border-color: #333333;
+            color: #E5E5E5;
+        }
+        
+        .black-button {
+            background-color: #6D28D9;
+            color: white;
+        }
+        
+        .black-button:hover {
+            background-color: #5B21B6;
+        }
+        
+        .divider {
+            border-color: #333333;
+        }
+        
+        /* Card image styling to fill the entire width */
+        .card-image {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            border-radius: 4px 4px 0 0;
+        }
+        
+        /* Modal styles */
+        .search-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
+            display: none;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideDown {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .modal-content {
+            animation: slideDown 0.3s ease-out;
+        }
+        
+        /* Hide scrollbar when modal is open */
+        body.modal-open {
+            overflow: hidden;
+        }
+        
+        /* Search form styles */
+        .search-form {
+            position: relative;
+        }
 
-    
+        .search-form button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* For the desktop header search specifically */
+        header .search-form button {
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Active menu item styles */
+        .menu-item.active {
+            color: #A855F7;
+        }
+
+        .desktop-menu-item.active {
+            color: #A855F7;
+        }
+    </style>
+    <script>
+        // Document ready function
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle desktop menu item clicks
+            const desktopMenuItems = document.querySelectorAll('.desktop-menu-item');
+            
+            desktopMenuItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all desktop items
+                    desktopMenuItems.forEach(menuItem => {
+                        menuItem.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked item
+                    this.classList.add('active');
+                });
+            });
+
+            // Handle mobile menu item clicks
+            const mobileMenuItems = document.querySelectorAll('.mobile-menu-item');
+            
+            mobileMenuItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all mobile items
+                    mobileMenuItems.forEach(menuItem => {
+                        menuItem.classList.remove('active');
+                        menuItem.querySelector('.icon-container').classList.remove('bg-purple-600');
+                        menuItem.querySelector('.icon-container').classList.add('bg-transparent');
+                        menuItem.querySelector('i').classList.remove('text-white');
+                        menuItem.querySelector('i').classList.add('text-gray-400');
+                        menuItem.querySelector('span').classList.remove('text-white');
+                        menuItem.querySelector('span').classList.add('text-gray-400');
+                    });
+                    
+                    // Add active class to clicked item
+                    this.classList.add('active');
+                    this.querySelector('.icon-container').classList.add('bg-purple-600');
+                    this.querySelector('.icon-container').classList.remove('bg-transparent');
+                    this.querySelector('i').classList.add('text-white');
+                    this.querySelector('i').classList.remove('text-gray-400');
+                    this.querySelector('span').classList.add('text-white');
+                    this.querySelector('span').classList.remove('text-gray-400');
+                });
+            });
+
+            // Set up Intersection Observer for scroll animations
+            const animatedItems = document.querySelectorAll('.animate-item');
+            
+            // Create observer instance
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('show');
+                        // Unobserve after animation has been triggered
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                root: null, // Use viewport as root
+                rootMargin: '0px',
+                threshold: 0.15 // Trigger when 15% of element is visible
+            });
+            
+            // Observe all animated items
+            animatedItems.forEach(item => {
+                observer.observe(item);
+            });
+            
+            // Add scroll event to change header appearance when scrolling
+            window.addEventListener('scroll', function() {
+                const header = document.querySelector('header');
+                if (window.scrollY > 50) {
+                    header.classList.add('bg-black');
+                    header.classList.add('bg-opacity-90'); 
+                    header.classList.add('backdrop-blur-lg');
+                } else {
+                    header.classList.remove('bg-opacity-90');
+                    header.classList.remove('backdrop-blur-lg');
+                }
+            });
+            
+            // Search modal functions
+            window.openSearchModal = function() {
+                document.getElementById('searchModal').style.display = 'flex';
+                document.getElementById('modalSearchInput').focus();
+                document.body.classList.add('modal-open');
+            }
+            
+            window.closeSearchModal = function() {
+                document.getElementById('searchModal').style.display = 'none';
+                document.body.classList.remove('modal-open');
+            }
+            
+            // Make sure the modal is closed on initial page load
+            closeSearchModal();
+            
+            // Close modal when clicking outside the search bar (mobile)
+            document.getElementById('searchModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeSearchModal();
+                }
+            });
+            
+            // Handle search icon clicks
+            document.querySelectorAll('.search-trigger').forEach(trigger => {
+                trigger.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    openSearchModal();
+                });
+            });
+            
+            // Handle search form submission
+            document.querySelectorAll('.search-form').forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    // Process search (add your search logic here)
+                    const searchInput = this.querySelector('input').value;
+                    alert('Pesquisando por: ' + searchInput);
+                    
+                    // Close modal if open
+                    closeSearchModal();
+                });
+            });
+        });
+    </script>
 </head>
-<body>
-    <nav class="navbar">
+<body class="text-white pb-20 md:pb-0">
+    <header class="black-header p-4 flex justify-between items-center">
         <!-- Logo -->
-        <div class="logo">
-            <a href="#">JOART'S</a>
+        <div class="flex items-center">
+            <img src="Logo.png" alt="Logo Joarts" class="h-10 md:h-12">
         </div>
-
-        <!-- Menu Hamburguer com ícone do FontAwesome -->
-        <div class="burger-menu" id="burger-menu">
-           <img src="images/icons/interface (1).png" alt=""> <!-- Ícone de hambúrguer com tamanho 3x -->
+    
+        <!-- Navegação Desktop -->
+        <nav class="hidden md:flex space-x-6 ml-6">
+            <a class="desktop-menu-item text-white hover:text-purple-400 transition-colors active" href="#">HOME</a>
+            <a class="desktop-menu-item text-white hover:text-purple-400 transition-colors" href="#">PROJETOS</a>
+            <a class="desktop-menu-item text-white hover:text-purple-400 transition-colors" href="#">HABILIDADES</a>
+            <a class="desktop-menu-item text-white hover:text-purple-400 transition-colors" href="#">CONTATO</a>
+            <a class="desktop-menu-item text-white hover:text-purple-400 transition-colors" href="#">PERFIL</a>
+        </nav>
+    
+        <!-- Busca (desktop only) -->
+        <div class="relative md:w-64 w-full max-w-lg ml-auto hidden md:block">
+            <form class="search-form">
+                <input class="p-2 w-full rounded black-input" placeholder="Search..." type="text"/>
+                <button type="submit" class="text-gray-400">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
         </div>
-
-        <!-- Formulário de Pesquisa -->
-         <form action="">
-            <div class="search-container">
-                <input type="text" class="search-input" placeholder="Buscar...">
-            <button class="search-button">
-                <img src="images/icons/search.png" alt="">
-            </button>
+        
+        <!-- Mobile search icon (only visible on mobile) -->
+        <button class="search-trigger md:hidden text-gray-400 text-xl ml-auto">
+            <i class="fas fa-search"></i>
+        </button>
+    </header>
+    
+    <!-- Search Modal (YouTube style) -->
+    <div id="searchModal" class="search-modal flex flex-col">
+        <div class="w-full py-2 px-4 bg-black border-b border-gray-800 modal-content">
+            <form class="search-form flex items-center justify-center">
+                <button type="button" onclick="closeSearchModal()" class="text-gray-400 mr-4">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="flex-1 max-w-lg relative">
+                    <input id="modalSearchInput" class="p-2 w-full rounded black-input" placeholder="Search..." type="text"/>
+                    <button type="submit" class="text-gray-400">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
         </div>
-         </form>
-       
+        
+        <!-- Recent searches (below search bar, centered) -->
+        <div class="p-4 flex flex-col items-center w-full">
+            <div class="max-w-lg w-full">
+                <h3 class="text-gray-400 mb-2 text-sm">Recent searches</h3>
+                <div class="flex flex-col space-y-3">
+                    <div class="flex items-center">
+                        <i class="fas fa-history text-gray-500 mr-3"></i>
+                        <span class="text-white">web development</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-history text-gray-500 mr-3"></i>
+                        <span class="text-white">portfolio examples</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-history text-gray-500 mr-3"></i>
+                        <span class="text-white">react native</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main content with animated items -->
+    <main class="text-center p-4">
+        <!-- Hero section -->
+        <div class="relative hidden md:block animate-item">
+            <img alt="Developer's portrait" class="w-full h-64 object-cover md:h-96" src="https://placehold.co/1200x400" />
+            <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-70">
+                <p class="text-xl md:text-2xl px-4">Desenvolvedor Full-stack com 5 anos de experiência no desenvolvimento de aplicações web e mobile, atuando tanto como CLT quanto como PJ.</p>
+            </div>
+        </div>
+        
+        <!-- Mobile profile section -->
+        <div class="flex flex-col items-center mt-4 md:hidden animate-item">
+            <div class="w-32 h-32 rounded-full overflow-hidden border-2 border-purple-600">
+                <img alt="Developer's portrait" class="w-full h-full object-cover" src="https://placehold.co/200" />
+            </div>
+            <p class="mt-4 text-center">Desenvolvedor Full-stack com 5 anos de experiência no desenvolvimento de aplicações web e mobile, atuando tanto como CLT quanto como PJ.</p>
+        </div>
+        
+        <!-- Section heading with animation -->
+        <h2 class="text-2xl font-bold mt-8 mb-4 animate-item text-purple-400">Meus Projetos</h2>
+        
+        <!-- Grid items with animation - Updated cards with full-width images -->
+        <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-4">
+            <div class="black-card rounded animate-item grid-item overflow-hidden flex flex-col">
+                <img alt="Database icon" class="card-image h-40" src="https://placehold.co/400x200" />
+                <div class="p-4">
+                    <h3 class="mt-2 text-purple-300">BANCOS DE DADOS</h3>
+                    <p class="text-gray-300">Criei um aplicativo que rastreia encomendas em tempo real para um comercio local</p>
+                </div>
+            </div>
+            <div class="black-card rounded animate-item grid-item overflow-hidden flex flex-col">
+                <img alt="Translator icon" class="card-image h-40" src="https://placehold.co/400x200" />
+                <div class="p-4">
+                    <h3 class="mt-2 text-purple-300">TRADUTOR</h3>
+                    <p class="text-gray-300">Criei um aplicativo que rastreia encomendas em tempo real para um comercio local</p>
+                </div>
+            </div>
+            <div class="black-card rounded animate-item grid-item overflow-hidden flex flex-col">
+                <img alt="Chatbot icon" class="card-image h-40" src="https://placehold.co/400x200" />
+                <div class="p-4">
+                    <h3 class="mt-2 text-purple-300">CHATBOT</h3>
+                    <p class="text-gray-300">Criei um aplicativo que rastreia encomendas em tempo real para um comercio local</p>
+                </div>
+            </div>
+            <div class="black-card rounded animate-item grid-item overflow-hidden flex flex-col">
+                <img alt="Database icon" class="card-image h-40" src="https://placehold.co/400x200" />
+                <div class="p-4">
+                    <h3 class="mt-2 text-purple-300">BANCOS DE DADOS</h3>
+                    <p class="text-gray-300">Criei um aplicativo que rastreia encomendas em tempo real para um comercio local</p>
+                </div>
+            </div>
+            <div class="black-card rounded animate-item grid-item overflow-hidden flex flex-col">
+                <img alt="Database icon" class="card-image h-40" src="https://placehold.co/400x200" />
+                <div class="p-4">
+                    <h3 class="mt-2 text-purple-300">BANCOS DE DADOS</h3>
+                    <p class="text-gray-300">Criei um aplicativo que rastreia encomendas em tempo real para um comercio local</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Additional sections with animations -->
+        <h2 class="text-2xl font-bold mt-12 mb-4 animate-item text-purple-400">Minhas Habilidades</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+            <div class="black-card p-6 rounded animate-item">
+                <i class="fas fa-code text-4xl text-purple-500 mb-4"></i>
+                <h3 class="text-xl font-semibold mb-2 text-purple-300">Desenvolvimento Frontend</h3>
+                <p class="text-gray-300">HTML, CSS, JavaScript, React, Vue.js, Angular, Tailwind CSS</p>
+            </div>
+            <div class="black-card p-6 rounded animate-item">
+                <i class="fas fa-server text-4xl text-purple-500 mb-4"></i>
+                <h3 class="text-xl font-semibold mb-2 text-purple-300">Desenvolvimento Backend</h3>
+                <p class="text-gray-300">Node.js, Express, Python, Django, PHP, Laravel, SQL, MongoDB</p>
+            </div>
+            <div class="black-card p-6 rounded animate-item">
+                <i class="fas fa-mobile-alt text-4xl text-purple-500 mb-4"></i>
+                <h3 class="text-xl font-semibold mb-2 text-purple-300">Desenvolvimento Mobile</h3>
+                <p class="text-gray-300">React Native, Flutter, Swift, Kotlin, Firebase</p>
+            </div>
+        </div>
+        
+        <!-- Contact section with animation -->
+        <h2 class="text-2xl font-bold mt-12 mb-4 animate-item text-purple-400">Entre em Contato</h2>
+        <div class="black-card p-6 rounded max-w-xl mx-auto animate-item mb-16">
+            <form class="space-y-4">
+                <div>
+                    <input type="text" placeholder="Nome" class="w-full p-2 rounded black-input">
+                </div>
+                <div>
+                    <input type="email" placeholder="Email" class="w-full p-2 rounded black-input">
+                </div>
+                <div>
+                    <textarea placeholder="Mensagem" class="w-full p-2 rounded black-input h-32"></textarea>
+                </div>
+                <div>
+                    <button type="submit" class="black-button py-2 px-6 rounded hover:bg-purple-700 transition-colors">Enviar</button>
+                </div>
+            </form>
+        </div>
+    </main>
 
-        <!-- Menu de navegação -->
-        <ul class="menu">
-            <li><a href="#"><i class="fa fa-home"></i> Home</a></li> <!-- Ícone de casa -->
-            <li><a href="#"><i class="fa fa-info-circle"></i> Sobre</a></li> <!-- Ícone de sobre -->
-            <li><a href="#"><i class="fa fa-cogs"></i> Serviços</a></li> <!-- Ícone de engrenagem -->
-            <li><a href="#"><i class="fa fa-envelope"></i> Contato</a></li> <!-- Ícone de envelope -->
-            <li><a href="#"><i class="fa-solid fa-door-open"></i> Sair</a></li> <!-- Ícone de envelope -->         
-        </ul>
-    </nav>
-    <div class="content">
-        <!-- Conteúdo da página -->
-        <p>Conteúdo da página aqui...</p>
-      </div>
-      <footer>
-        Footer fixo no final da janela
-      </footer>
-    <!-- Adicionando o script -->
-    <script src="script.js"></script>
+    <!-- New Footer Section -->
+    <footer class="black-footer text-white py-12 animate-item border-t divider">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- About column -->
+                <div class="space-y-4">
+                    <h3 class="text-xl font-bold border-b border-purple-500 pb-2 inline-block">Sobre Mim</h3>
+                    <p class="text-gray-300">Desenvolvedor Full-stack apaixonado por criar soluções web e mobile inovadoras que resolvem problemas reais.</p>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="text-gray-300 hover:text-purple-500 transition-colors">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-purple-500 transition-colors">
+                            <i class="fab fa-linkedin text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-purple-500 transition-colors">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-purple-500 transition-colors">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links Column -->
+                <div class="space-y-4">
+                    <h3 class="text-xl font-bold border-b border-purple-500 pb-2 inline-block">Links Rápidos</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-purple-500 transition-colors">Home</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-purple-500 transition-colors">Projetos</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-purple-500 transition-colors">Habilidades</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-purple-500 transition-colors">Contato</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-purple-500 transition-colors">Perfil</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Services Column -->
+                <div class="space-y-4">
+                    <h3 class="text-xl font-bold border-b border-purple-500 pb-2 inline-block">Serviços</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-purple-500 transition-colors">Desenvolvimento Web</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-purple-500 transition-colors">Desenvolvimento Mobile</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-purple-500 transition-colors">UI/UX Design</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-purple-500 transition-colors">Consultoria</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-purple-500 transition-colors">Manutenção</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Column -->
+                <div class="space-y-4">
+                    <h3 class="text-xl font-bold border-b border-purple-500 pb-2 inline-block">Contato</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-purple-500 mt-1 mr-3"></i>
+                            <span class="text-gray-300">Rio de Janeiro, Itaipuaçu - Maricá</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope text-purple-500 mt-1 mr-3"></i>
+                            <span class="text-gray-300">joaopedrogomespaulino12@gmail.com</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone text-purple-500 mt-1 mr-3"></i>
+                            <span class="text-gray-300">+55 (21) 9874-12436</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-clock text-purple-500 mt-1 mr-3"></i>
+                            <span class="text-gray-300">Seg - Sex: 9:00 - 18:00</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Divider -->
+            <div class="border-t divider my-8"></div>
+            
+            <!-- Copyright -->
+            <div class="text-center text-gray-400">
+                <p>&copy; 2025 JOARTS. Todos os direitos reservados.</p>
+                <div class="mt-2">
+                    <a href="#" class="text-gray-400 hover:text-purple-500 transition-colors mx-2">Termos de Uso</a>
+                    <a href="#" class="text-gray-400 hover:text-purple-500 transition-colors mx-2">Política de Privacidade</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Bottom Menu -->
+    <div class="md:hidden">
+        <footer class="bg-black bg-opacity-90 backdrop-blur-lg fixed bottom-0 left-0 right-0 rounded-t-xl border-t divider">
+            <div class="flex justify-around items-center h-16 px-2">
+                <a href="#" class="mobile-menu-item flex flex-col items-center justify-center w-1/5 py-1 active">
+                    <div class="icon-container bg-purple-600 p-2 rounded-full transition-colors">
+                        <i class="fas fa-home text-white transition-colors"></i>
+                    </div>
+                    <span class="text-xs mt-1 text-white font-medium transition-colors">Home</span>
+                </a>
+                
+                <a href="#" class="mobile-menu-item flex flex-col items-center justify-center w-1/5 py-1">
+                    <div class="icon-container bg-transparent p-2 rounded-full transition-colors">
+                        <i class="fas fa-folder text-gray-400 transition-colors"></i>
+                    </div>
+                    <span class="text-xs mt-1 text-gray-400 transition-colors">Projetos</span>
+                </a>
+                
+                <a href="#" class="mobile-menu-item flex flex-col items-center justify-center w-1/5 py-1">
+                    <div class="icon-container bg-transparent p-2 rounded-full transition-colors">
+                        <i class="fas fa-cog text-gray-400 transition-colors"></i>
+                    </div>
+                    <span class="text-xs mt-1 text-gray-400 transition-colors">Habilidades</span>
+                </a>
+                
+                <a href="#" class="mobile-menu-item flex flex-col items-center justify-center w-1/5 py-1">
+                    <div class="icon-container bg-transparent p-2 rounded-full transition-colors">
+                        <i class="fas fa-envelope text-gray-400 transition-colors"></i>
+                    </div>
+                    <span class="text-xs mt-1 text-gray-400 transition-colors">Contato</span>
+                </a>
+                
+                <a href="#" class="mobile-menu-item flex flex-col items-center justify-center w-1/5 py-1">
+                    <div class="icon-container bg-transparent p-2 rounded-full transition-colors">
+                        <i class="fas fa-user text-gray-400 transition-colors"></i>
+                    </div>
+                    <span class="text-xs mt-1 text-gray-400 transition-colors">Perfil</span>
+                </a>
+            </div>
+            
+            <!-- Bottom indicator line -->
+            <div class="h-1 mx-auto bg-purple-600 opacity-25 rounded-full w-1/3 mb-1"></div>
+        </footer>
+    </div>
 </body>
 </html>
